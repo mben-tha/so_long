@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/26 10:38:07 by mehdi             #+#    #+#             */
+/*   Updated: 2025/05/26 10:55:41 by mehdi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -32,13 +44,22 @@ typedef struct s_game
 	int		collectibles;
 
 	char	**map;
+	char	**cpy_map;
 }	t_game;
 
-// Fonctions
 char	**create_map(char *file);
-void	init_game(t_game *game, char *map_file);
-void	display_map(t_game *game);
 void	free_map(char **map);
+int		check_rectangular(char **map);
+int		check_walls(char **map);
+int		check_char(char **map);
+int		check_elements(char **map);
+int		map_validity(char **map);
+void	find_info_backtraking(char **map, t_game *game);
+int		backtracking(char **map, int y, int x, int C);
+void	init_game(t_game *game);
+void	init_image(t_game *game);
+void	display_map(t_game *game);
+void	display_player(t_game *game, int y, int x);
 int		handle_key(int keycode, t_game *game);
 void	move_player(t_game *game, int dx, int dy);
 
