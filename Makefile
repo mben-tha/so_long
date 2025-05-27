@@ -1,49 +1,29 @@
-# === Variables de compilation ===
-NAME		= so_long
-CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
-MLXFLAGS = -lmlx -lXext -lX11 -lm
+SRCS = main.c create_map.c display_map.c free_map.c parsing_map.c get_next_line.c \
+	get_next_line_utils.c handle_key.c init_game.c move_player.c solve.c \
+	ft_split.c utils.c 
 
-# === Dossiers ===
-SRC_DIR		= src
-OBJ_DIR		= obj
-LIBFT_DIR	= libft
-GNL_DIR		= get_next_line
+OBJS = ${SRCS:.c=.o}
 
-# === Fichiers sources ===
-SRCS	= \
-	$(SRC_DIR)/main.c \
-	$(SRC_DIR)/create_map.c \
-	$(SRC_DIR)/init_map.c \
-	$(SRC_DIR)/display_map.c \
-	$(GNL_DIR)/get_next_line.c \
-	$(GNL_DIR)/get_next_line_utils.c \
-	$(LIBFT_DIR)/ft_strjoin_free.c # ou src/utils/ft_strjoin_free.c
+CC = clang
+CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
+NAME = so_long
+FLAGS = -Imlx -Lmlx -lmlx -lXext -lX11 -lm
 
-OBJS	= $(SRCS:.c=.o)
-OBJSF	= $(subst $(SRC_DIR),$(OBJ_DIR),$(OBJS))
 
-# === Règles ===
+all: ${NAME}
 
-all: $(NAME)
+.c.o:
+	${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/libft.a -o $(NAME) $(MLXFLAGS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(GNL_DIR) -I$(SRC_DIR) -c $< -o $@
+	make -C "mlx/"
+	${CC} $(CFLAGS) -o $(NAME) $(OBJS) $(FLAGS)
 
 clean:
-	@make clean -C $(LIBFT_DIR)
-	rm -f $(OBJS)
+	${RM} ${OBJS}
 
 fclean: clean
-	@make fclean -C $(LIBFT_DIR)
-	rm -f $(NAME)
+	${RM} ${NAME}
 
 re: fclean all
-
-.PHONY: all clean fclean re
-
-

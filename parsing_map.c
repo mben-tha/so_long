@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mben-tha <mben-tha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:16:17 by mehdi             #+#    #+#             */
-/*   Updated: 2025/05/25 13:22:30 by mehdi            ###   ########.fr       */
+/*   Updated: 2025/05/27 12:08:43 by mben-tha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 int	check_rectangular(char **map)
 {
-	int	width;
+	size_t	width;
+	int	i;
 
+	i = 0;
 	if (!map || !map[0])
 		return (0);
-	width = ft_strlen(*map);
-	while (*map != NULL)
+	width = ft_strlen(map[0]);
+	while (map[i])
 	{
-		if (ft_strlen(*map) != width)
+		if (ft_strlen(map[i]) != width)
 			return (0);
-		*map++;
+		i++;
 	}
 	return (1);
 }
@@ -105,7 +107,7 @@ int	check_elements(char **map)
 	return (exit == 1 && player == 1 && collect >= 1);
 }
 
-int	map_validity(char **map)
+int	map_validity(char **map, const char *file)
 {
 	if (!check_rectangular(map))
 		return (ft_putendl_fd("Error: Map is not rectangular", 2), 0);
@@ -115,5 +117,7 @@ int	map_validity(char **map)
 		return (ft_putendl_fd("Error: Map must contain all elements", 2), 0);
 	if (!check_elements(map))
 		return (ft_putendl_fd("Error: Map must contain all elements", 2), 0);
+	if (!check_ber(file))
+		return (ft_putendl_fd("Error: File must have .ber extension", 2), 0);
 	return (1);
 }
